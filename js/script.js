@@ -611,18 +611,67 @@ window.addEventListener('resize', adjustProtocolsNextSection);
   if (!section) return;
 
   const wrapper = section.querySelector('.other-scroll__wrapper');
-  const cards = gsap.utils.toArray('.other--card');
+  const cards = Array.from(section.querySelectorAll('.other--card'));
   if (!wrapper || cards.length === 0) {
     console.error('other-services: wrapper or cards not found');
     return;
   }
 
   // Убиваем старые триггеры для этой секции
-  ScrollTrigger.getAll().forEach(t => {
-    try { if (t.trigger === section) t.kill(); } catch(e){ }
-  });
+  ScrollTrigger.getAll().forEach(t => { try { if (t.trigger === section) t.kill(); } catch(e){} });
 
   let mainTL;
+
+  const isMobile = window.innerWidth < 1100;
+
+  if (isMobile) {
+    // Simple mobile carousel: autoplay every 4s, loop, with prev/next buttons
+    let index = 0;
+    let autoplay = null;
+    const btnPrev = section.querySelector('.other-carousel__btn--prev');
+    const btnNext = section.querySelector('.other-carousel__btn--next');
+
+    function getGap() {
+      try { return parseInt(getComputedStyle(wrapper).gap) || 12; } catch(e) { return 12; }
+    }
+
+    function updatePosition() {
+      const gap = getGap();
+      const cardW = cards[0].offsetWidth;
+      const offset = index * (cardW + gap);
+      wrapper.style.transform = `translateX(-${offset}px)`;
+    }
+
+    function next() { index = (index + 1) % cards.length; updatePosition(); }
+    function prev() { index = (index - 1 + cards.length) % cards.length; updatePosition(); }
+
+    function startAutoplay() { stopAutoplay(); autoplay = setInterval(next, 4000); }
+    function stopAutoplay() { if (autoplay) { clearInterval(autoplay); autoplay = null; } }
+
+    btnPrev?.addEventListener('click', (e) => { e.preventDefault(); prev(); startAutoplay(); });
+    btnNext?.addEventListener('click', (e) => { e.preventDefault(); next(); startAutoplay(); });
+
+    // Pause on hover/touch
+    section.addEventListener('pointerenter', stopAutoplay);
+    section.addEventListener('pointerleave', startAutoplay);
+
+    // Basic swipe support
+    let startX = 0, deltaX = 0;
+    wrapper.addEventListener('touchstart', (e) => { stopAutoplay(); startX = e.touches[0].clientX; }, { passive: true });
+    wrapper.addEventListener('touchmove', (e) => { deltaX = e.touches[0].clientX - startX; }, { passive: true });
+    wrapper.addEventListener('touchend', () => { if (Math.abs(deltaX) > 40) { deltaX < 0 ? next() : prev(); } deltaX = 0; startAutoplay(); });
+
+    window.addEventListener('resize', () => { setTimeout(updatePosition, 120); });
+
+    // Init
+    updatePosition();
+    startAutoplay();
+
+    // Do not initialize GSAP-heavy scroll behavior on mobile
+    return;
+  }
+
+  // Desktop / non-mobile: original ScrollTrigger-driven behavior
 
   function initOtherServicesScroll() {
     // Очистка предыдущего
