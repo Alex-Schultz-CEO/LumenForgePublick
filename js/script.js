@@ -1,53 +1,80 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Global GSAP optimizations for smoothness
-    gsap.ticker.lagSmoothing(0); // Disable auto lag smoothing for real-time feel
-    gsap.ticker.fps(60); // Ensure consistent FPS
+  // Global GSAP optimizations for smoothness (safer defaults)
+  try {
+    gsap.ticker.lagSmoothing(600); // moderate smoothing
+    gsap.ticker.fps(0); // let browser decide FPS (0 = uncapped)
+  } catch (e) { /* if gsap not available yet */ }
 
-    const logo = document.querySelector('.firstscreen__logo');
-    const layers = Array.from(logo.querySelectorAll('.firstscreen__logo-text'));
-    const beg = document.querySelector(".firstscreen > .beg")
-    let mouseX = 0, mouseY = 0;
+  const logo = document.querySelector('.firstscreen__logo');
+  const layers = logo ? Array.from(logo.querySelectorAll('.firstscreen__logo-text')) : [];
+  const beg = document.querySelector('.firstscreen > .beg');
 
-    const funcEvent = (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    }
+  if (!logo || layers.length === 0 || !beg) {
+    console.warn('Parallax: required elements not found (.firstscreen__logo / .firstscreen__logo-text / .beg)');
+    return;
+  }
 
-    function updateParallax() {
-        const cx = window.innerWidth / 2;
-        const cy = window.innerHeight / 2;
-        // Нормализуем в диапазон [-1, 1]
-        const dx = (mouseX - cx) / cx;
-        const dy = (mouseY - cy) / cy;
+  let mouseX = 0, mouseY = 0;
+  let rafPending = false;
 
-        layers.forEach((layer, i) => {
-            // Скорость: слои, стоящие раньше в DOM, движутся быстрее
-            const speedFactor = (layers.length - i);
-            // Подберите 10 (px) под ваши нужды
-            const xOffset = dx * speedFactor * 15;
-            const yOffset = dy * speedFactor * 15;
-            layer.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
-            beg.style.transform = `translate3d(${xOffset * 1.5}px, ${yOffset * 1.5}px, 0)`;
-        });
-
-        requestAnimationFrame(updateParallax);
-    }
-    if (window.innerWidth < 1100) {
-        window.addEventListener("scroll", e => {
-            const cy = window.scrollY / 2;
-
-            layers.forEach((layer, i) => {
-                const speedFactor = (layers.length - i);
-                const yOffset = cy * speedFactor / 6;
-                layer.style.transform = `translateY(${-yOffset}px)`;
-                beg.style.transform = `translateY(${-yOffset * 1.5}px)`;
-            })
-        })
-    }
-    else {
-        window.addEventListener('mousemove', funcEvent);
+  const funcEvent = (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(() => {
         updateParallax();
+        rafPending = false;
+      });
     }
+  }
+
+  function updateParallax() {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (mouseX - cx) / cx;
+    const dy = (mouseY - cy) / cy;
+
+    layers.forEach((layer, i) => {
+      const speedFactor = (layers.length - i);
+      const xOffset = dx * speedFactor * 15;
+      const yOffset = dy * speedFactor * 15;
+      layer.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+    });
+
+    if (beg) beg.style.transform = `translate3d(${dx * 15 * 1.5}px, ${dy * 15 * 1.5}px, 0)`;
+  }
+
+  function onScrollParallax() {
+    const cy = window.scrollY / 2;
+    layers.forEach((layer, i) => {
+      const speedFactor = (layers.length - i);
+      const yOffset = cy * speedFactor / 6;
+      layer.style.transform = `translateY(${-yOffset}px)`;
+    });
+    if (beg) beg.style.transform = `translateY(${-cy * 1.5}px)`;
+  }
+
+  // Debounced resize to rebind correct listeners
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      window.removeEventListener('mousemove', funcEvent);
+      window.removeEventListener('scroll', onScrollParallax);
+      if (window.innerWidth < 1100) {
+        window.addEventListener('scroll', onScrollParallax);
+      } else {
+        window.addEventListener('mousemove', funcEvent);
+      }
+    }, 200);
+  });
+
+  if (window.innerWidth < 1100) {
+    window.addEventListener('scroll', onScrollParallax);
+  } else {
+    window.addEventListener('mousemove', funcEvent);
+  }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -785,3 +812,20 @@ window.addEventListener('resize', adjustOtherServicesNextSection);
     }, 200); // Increased
   });
 })();
+
+// Global menu toggle used by index.html button
+function toggleMenu() {
+  const body = document.body;
+  const icon = document.querySelector('.toggle .fa-solid');
+  body.classList.toggle('close__menu');
+  if (icon) {
+    icon.classList.toggle('fa-bars-staggered');
+    icon.classList.toggle('fa-xmark');
+  } else {
+    const any = document.querySelector('.fa-solid');
+    if (any) {
+      any.classList.toggle('fa-bars-staggered');
+      any.classList.toggle('fa-xmark');
+    }
+  }
+}

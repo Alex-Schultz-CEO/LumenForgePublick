@@ -4,14 +4,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Tektur:wght@400..900&display=swap');
 /* TEST GIT */
 :root {
-    /* --main-color: #FFF; */
+    /* --main-color: rgb(3 3 3 / 13%); */
     --contrast-sec: hsl(5, 70%, 60%);
     --contrast-main: hsl(180, 60%, 70%);
     --sec-color: #161616;
-    /* --grey: #4B5358; */
     --grey: #356066;
 
     --offset: max(14px, 1vw);
+
+    /* Useful global helpers */
+    --transition-duration: 0.32s;
+    --ease-default: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 /* TEST GIT */
 ::-webkit-scrollbar {
