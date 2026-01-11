@@ -1,3 +1,34 @@
+// Safe menu toggle used by header button
+function toggleMenu() {
+  try {
+    document.body.classList.toggle('close__menu');
+    const fa = document.querySelector('.fa-solid');
+    if (fa) {
+      fa.classList.toggle('fa-bars-staggered');
+      fa.classList.toggle('fa-xmark');
+    }
+  } catch (e) {
+    console.warn('toggleMenu failed', e);
+  }
+}
+
+// Lightweight reveal for other-services cards: toggle .revealed via ScrollTrigger
+if (window.gsap && window.ScrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger);
+
+  // add reveal when the section enters viewport
+  const section = document.querySelector('.other-services__cards');
+  if (section) {
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 70%',
+      onEnter: () => requestAnimationFrame(() => section.classList.add('revealed')),
+      onLeaveBack: () => section.classList.remove('revealed'),
+      invalidateOnRefresh: true
+    });
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Global GSAP optimizations for smoothness
     gsap.ticker.lagSmoothing(0); // Disable auto lag smoothing for real-time feel

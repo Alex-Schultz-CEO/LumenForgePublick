@@ -2061,8 +2061,34 @@ body>.beg {
     .about{
         height: 133vh;
     }
-    .pc--only{
-        display: none;
-    }
-    }
+        .pc--only{
+                display: none;
+        }
+        }
+
+/* other-services cards reveal (CSS-based, GPU hints) */
+.other-services__cards .other--card,
+.other-services__cards .card-prot {
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+}
+
+.other-services__cards .other--card {
+    opacity: 0;
+    transform: translateY(30px) scale(0.995);
+    transition: transform 520ms cubic-bezier(.22,.9,.3,1), opacity 420ms ease-out;
+}
+
+.other-services__cards.revealed .other--card {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* gentle stagger via nth-child to avoid JS work */
+.other-services__cards.revealed .other--card:nth-child(1) { transition-delay: 0ms; }
+.other-services__cards.revealed .other--card:nth-child(2) { transition-delay: 80ms; }
+.other-services__cards.revealed .other--card:nth-child(3) { transition-delay: 160ms; }
+.other-services__cards.revealed .other--card:nth-child(4) { transition-delay: 240ms; }
 
