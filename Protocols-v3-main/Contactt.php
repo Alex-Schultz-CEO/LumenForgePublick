@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<title>Contact</title>
+
+	<script src="libs/gsap/gsap.min.js" defer></script>
+	<script src="libs/gsap/ScrollTrigger.min.js" defer></script>
+	<script src="libs/gsap/ScrollSmoother.min.js" defer></script>
+
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+	<script src="js/app.js" defer></script>
+
+  <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+    
+    <!-- Android Chrome Icons -->
+    <link rel="manifest" href="img/site.webmanifest">
+    <link rel="icon" type="image/png" sizes="192x192" href="img/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="img/android-chrome-512x512.png">
+
+</head>
+
+<body class="close__menu">
+    <button class="toggle title" type="button" onclick="document.body.classList.toggle('close__menu');document.querySelector('.fa-solid').classList.toggle('fa-bars-staggered'); document.querySelector('.fa-solid').classList.toggle('fa-xmark')">МЕНЮ <i class="fa-solid fa-bars-staggered"></i></button>
+    <div class="beg">
+        <h1 style="display: none">HIDDEN ELEMENT</h1>
+    </div>
+    <header class="header">
+        <section class="header__side">
+            <h1 class="header__logo title">Lumen Forge<span class="header__slogan">Даже лебедь в шоке.</span></h1>
+            <h6 class="header__cors title">&copy; Lumen Forge. Все права защищены.</h6>
+        </section>
+        <nav class="header__menu">
+            <ul class="header__links">
+                <li class="header__link-item"><a href="../index.html" class="header__link title"><span class="title">ДОМОЙ</span><span class="title">ДОМОЙ</span></a></li>
+                <li class="header__link-item"><a href="Protocols.html" class="header__link title"><span class="title">УСЛУГИ</span><span class="title">УСЛУГИ</span></a></li>
+                <li class="header__link-item"><a href="Contactt.php" class="header__link title"><span class="title">Контакты</span><span class="title">Контакты</span></a></li>
+                <li class="header__link-item"><a href="" class="header__link title"><span class="title">update</span><span class="title">update</span></a></li>
+                <li class="header__link-item"><a href="" class="header__link title"><span class="title">update</span><span class="title">update</span></a></li>
+                <li class="header__link-item"><a href="" class="header__link title"><span class="title">update</span><span class="title">update</span></a></li>
+            </ul>
+        </nav>
+    </header>
+	
+
+	<div class="wrapper">
+		<div class="content">
+			<main>
+    <div class="contact-page">
+          <div class="contact-card">
+            <div class="contact-header-row">
+              <div class="contact-header-and-calendar">
+                <div class="contact-header">
+                  <h1 class="big-title text-black">Contact</h1>
+                  <!-- <img src="images/logo1.png" alt="Logo" class="img-con" /> -->
+                </div>
+                <p class="intro-text">
+                  Оставьте заявку — мы предложим эффективное IT-решение для вашего бизнеса или госструктуры.
+                </p>
+                <div class="calendar-wrapper">
+                  <div class="calendar">
+                    <div class="tablet-screen">
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+                <!--  -->
+              </div>
+              <form class="form" action="send-mail.php" method="post" enctype="multipart/form-data">
+                <div class="fields">
+                  <label>ИМЯ
+                    <input type="text" name="name" placeholder="Иван" required />
+                  </label>
+                  <label>ПОЧТА
+                    <input type="email" name="email" placeholder="Email-адрес" required />
+                  </label>
+                  <label>НОМЕР
+                    <input type="tel" name="phone" placeholder="+7" required />
+                  </label>
+                  
+                  <label>СООБЩЕНИЕ
+                    <textarea name="message" placeholder="Печатай..." required></textarea>
+                  </label>
+                </div>
+
+                <div class="form-footer">
+                  <div class="actions">
+                    <label for="file" class="custom-file-label1">Добавить файл</label>
+                    <input type="file" id="file" name="file" style="display:none;">
+                    <button type="submit">ОТПРАВИТЬ →</button>
+                  </div>
+
+                  <div class="contact-info1">
+                    <div class="contact-item">
+                      <div class="label">Телефон</div>
+                      <div class="value"><a href="tel:84959883508">+7 777 777 77 77</a></div>
+                    </div>
+                    <div class="contact-item">
+                      <div class="label">Отдел продаж</div>
+                      <div class="value"><a href="mailto:office@systemamsk.ru">office@LumenForge.ru</a></div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </section>
+    <!-- <div style="width: 100vw; height: 300vh;"></div> -->
+    </main>
+</div>				
+</div>
+	<div class="mob__wrapper">
+		<div class="mob__content">
+			
+		</div>
+	</div>
+	<script src="js/script.js"></script>
+</body>
+
+</html>
