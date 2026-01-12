@@ -1,5 +1,6 @@
 /* TEST GIT */
 
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Tektur:wght@400..900&display=swap');
 
 /* Mobile carousel styles for .other-services__cards */
 @media (max-width: 1100px) {
@@ -49,8 +50,6 @@
     /* Hide GSAP-heavy visuals for mobile to reduce paint cost */
     .other-services__cards .layer { will-change: auto !important; transform: none !important; }
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Tektur:wght@400..900&display=swap');
 /* TEST GIT */
 :root {
     /* --main-color: rgb(3 3 3 / 13%); */
